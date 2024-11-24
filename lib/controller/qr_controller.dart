@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QRController extends GetxController {
@@ -12,8 +13,17 @@ class QRController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkAndRequestCameraPermission();
     loadHistory();
   }
+
+//ask camera permission
+  Future<void> checkAndRequestCameraPermission() async {
+    if (await Permission.camera.isDenied) {
+      await Permission.camera.request();
+    }
+  }
+
 
   void processScannedQRCode(String scannedCode) {
     if (scannedCode.isNotEmpty) {

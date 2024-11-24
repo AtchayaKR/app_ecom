@@ -22,7 +22,7 @@ dependencies:
   carousel_slider: ^5.0.0
 
   # To QR Scanner
-  qr_code_scanner: ^1.0.1
+  qr_code_scanner_plus: ^2.0.6 
   qr_flutter: ^4.1.0
 
   # To local storage
@@ -30,6 +30,9 @@ dependencies:
 
   # To animation
   lottie: ^3.1.3
+
+  # To ask permission for camera
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

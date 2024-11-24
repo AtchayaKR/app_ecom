@@ -9,7 +9,7 @@ android {
     // Define the namespace only once, matching the application's package name.
     namespace "com.example.qr_code_scanner" 
 
-    compileSdk = 33
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -25,7 +25,7 @@ android {
         // Application ID should match the app's primary package name.
         applicationId = "com.example.qr_code_scanner"
         minSdk = 21
-        targetSdk = 33
+        targetSdk = 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -33,7 +33,9 @@ android {
     buildTypes {
         release {
             // Use a proper signing config for release builds.
-            signingConfig = signingConfigs.debug
+        signingConfig signingConfigs.debug
+        minifyEnabled false
+        shrinkResources false
         }
     }
 }
