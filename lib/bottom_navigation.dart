@@ -21,22 +21,46 @@ class BottomNav extends StatelessWidget {
       return Scaffold(
         body: navigationController
             .screens[navigationController.selectedIndex.value],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: navigationController.hideBottomNavScreens
                 .contains(navigationController.selectedIndex.value)
             ? null
-            : FloatingActionButton(
-                onPressed: () {
-                  navigationController.selectedIndex.value = 2;
-                },
-                backgroundColor: Colors.yellow,
-                child: const CircleAvatar(
-                  backgroundColor: Colors.yellow,
-                  radius: 40,
-                  child:
-                      Icon(Icons.qr_code_scanner_outlined, color: Colors.black),
-                ),
-              ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            :
+            Container(
+              margin:EdgeInsets.only(top:10),
+              height:64,
+              width:64,
+               child: FloatingActionButton(
+                    onPressed: () {
+                      navigationController.selectedIndex.value = 2;
+                    },
+                      shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    side:BorderSide(width:3,color:isDarkMode?Colors.black:Colors.white)),
+                    elevation:0,
+                    backgroundColor: Colors.yellow,
+                    child: Icon(Icons.qr_code_scanner_outlined,
+                        color: Colors.black),
+                  ),
+            ),
+            //  Material(
+            //     color: Colors.yellow,
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(50)),
+            //     elevation: 10,
+            //     shadowColor: Colors.grey,
+            //     child: Container(
+            //       height: 70,
+            //       width: 70,
+            //       child: FloatingActionButton(
+            //         onPressed: () {
+            //           navigationController.selectedIndex.value = 2;
+            //         },
+            //         backgroundColor: Colors.yellow,
+            //         child: Icon(Icons.qr_code_scanner_outlined,
+            //             color: Colors.black),
+            //       ),
+            //     )),
         bottomNavigationBar: navigationController.hideBottomNavScreens
                 .contains(navigationController.selectedIndex.value)
             ? null
@@ -45,69 +69,70 @@ class BottomNav extends StatelessWidget {
                     ? const Color.fromARGB(255, 34, 34, 34)
                     : Colors.grey[300],
                 shape: const CircularNotchedRectangle(),
-                notchMargin: 2.0,
+                clipBehavior: Clip.antiAlias,
+                notchMargin: 4.0,
+                elevation: 10,
                 child: Container(
-                  height: 60,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          navigationController.selectedIndex.value = 0; // Home
-                        },
-                        icon: Icon(
-                          Icons.home,
-                          color: navigationController.selectedIndex.value == 0
-                              ? Colors.yellow
-                              : Colors.grey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            navigationController.selectedIndex.value =
+                                0; // Home
+                          },
+                          icon: Icon(
+                            Icons.home,
+                            color: navigationController.selectedIndex.value == 0
+                                ? Colors.yellow
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          navigationController.selectedIndex.value =
-                              1; // Search
-                        },
-                        icon: Icon(
-                          Icons.search_outlined,
-                          color: navigationController.selectedIndex.value == 1
-                              ? Colors.yellow
-                              : Colors.grey,
+                        IconButton(
+                          onPressed: () {
+                            navigationController.selectedIndex.value =
+                                1; // Search
+                          },
+                          icon: Icon(
+                            Icons.search_outlined,
+                            color: navigationController.selectedIndex.value == 1
+                                ? Colors.yellow
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 48),
-                      IconButton(
-                        onPressed: () {
-                          navigationController.selectedIndex.value =
-                              3; // Favorites
-                        },
-                        icon: Icon(
-                          Icons.favorite_border,
-                          color: navigationController.selectedIndex.value == 3
-                              ? Colors.yellow
-                              : Colors.grey,
+                        const SizedBox(width: 48),
+                        IconButton(
+                          onPressed: () {
+                            navigationController.selectedIndex.value =
+                                3; // Favorites
+                          },
+                          icon: Icon(
+                            Icons.favorite_border,
+                            color: navigationController.selectedIndex.value == 3
+                                ? Colors.yellow
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          navigationController.selectedIndex.value =
-                              4; // Profile
-                        },
-                        icon: Icon(
-                          Icons.person_4_outlined,
-                          color: navigationController.selectedIndex.value == 4
-                              ? Colors.yellow
-                              : Colors.grey,
+                        IconButton(
+                          onPressed: () {
+                            navigationController.selectedIndex.value =
+                                4; // Profile
+                          },
+                          icon: Icon(
+                            Icons.person_4_outlined,
+                            color: navigationController.selectedIndex.value == 4
+                                ? Colors.yellow
+                                : Colors.grey,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -122,9 +147,9 @@ class NavigationController extends GetxController {
   //  screens
   final screens = [
     const HomeScrn(),
-    const SearchCategory(),
+    SearchCategory(),
     QRScanView(),
-    const WishlistScrn(),
+    WishlistScrn(),
     const ProfileScreen(),
   ];
 

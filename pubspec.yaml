@@ -12,27 +12,27 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # iOS style icons.
-  cupertino_icons: ^1.0.8
+  # iOS style icons
+  cupertino_icons: 
 
   # State Managemnet
-  get: ^4.6.6
+  get: 
 
   # To Crousal Slider
-  carousel_slider: ^5.0.0
+  carousel_slider: 
 
   # To QR Scanner
-  qr_code_scanner_plus: ^2.0.6 
-  qr_flutter: ^4.1.0
+  qr_code_scanner_plus:  
+  qr_flutter: 
 
   # To local storage
-  shared_preferences: ^2.3.3
+  shared_preferences: 
 
   # To animation
-  lottie: ^3.1.3
+  lottie: 
 
   # To ask permission for camera
-  permission_handler: ^11.3.1
+  permission_handler: 
 
 dev_dependencies:
   flutter_test:

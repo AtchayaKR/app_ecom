@@ -1,12 +1,17 @@
 import 'package:app_ecom/controller/theme_controller.dart';
 import 'package:app_ecom/data/categorydata.dart';
+import 'package:app_ecom/model/categoryitem_model.dart';
 import 'package:app_ecom/widget/widget_layout/grid_layout.dart';
 import 'package:app_ecom/widget/widget_layout/vertical_product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SearchCategory extends StatelessWidget {
-  const SearchCategory({super.key});
+  SearchCategory({super.key});
+
+  final TextEditingController searchController = TextEditingController();
+  final RxString searchQuery = ''.obs;
+  final RxList<CategoryItem> filteredItems = categoryItems.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +34,23 @@ class SearchCategory extends StatelessWidget {
                   children: [
                     Flexible(
                       child: TextField(
+                        controller: searchController,
+                        onChanged: (value) {
+                          searchQuery.value = value;
+                          filterItems(); // Update the filtered list
+                        },
                         style: const TextStyle(fontSize: 14),
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
-                          suffixIcon: const Icon(Icons.mic, color: Colors.grey),
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.clear,size:16),
+                            onPressed: () {
+                              searchController.clear();
+                              searchQuery.value = '';
+                              filteredItems.value = categoryItems;
+                            },
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25),
                             borderSide: BorderSide.none,
@@ -66,23 +83,46 @@ class SearchCategory extends StatelessWidget {
               ),
               const SizedBox(height: 10),
 
-              // Category List
+              // Dynamic Filtered List
               Expanded(
-                child: GridLayout(
-                  itemCount: categoryItems.length,
-                  itemBuilder: (_, index) => VerticalProductGrid(
-                    containerImage: categoryItems[index].imagePath,
-                    imageTitle: categoryItems[index].title,
-                    imageHeight: 200,
-                    imageWidth: double.infinity,
-                    borderRadius: 15,
-                  ),
-                ),
+                child: Obx(() {
+                  if (filteredItems.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No items match your search.",
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    );
+                  }
+                  return GridLayout(
+                    itemCount: filteredItems.length,
+                    itemBuilder: (_, index) => VerticalProductGrid(
+                      containerImage: filteredItems[index].imagePath,
+                      imageTitle: filteredItems[index].title,
+                      imageHeight: 200,
+                      imageWidth: double.infinity,
+                      borderRadius: 15,
+                    ),
+                  );
+                }),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  // Filter items based on the search query
+  void filterItems() {
+    if (searchQuery.value.isEmpty) {
+      filteredItems.value = categoryItems;
+    } else {
+      filteredItems.value = categoryItems
+          .where((item) => item.title
+              .toLowerCase()
+              .contains(searchQuery.value.toLowerCase()))
+          .toList();
+    }
   }
 }

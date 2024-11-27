@@ -26,65 +26,75 @@ class QRScanView extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_new),
           ),
         ),
-        body: Stack(
-          children: [
-            // scanning logic
-            QRView(
-              key: qrKey,
-              onQRViewCreated: (QRViewController qrController) {
-                qrController.scannedDataStream.listen((scanData) {
-                  controller.processScannedQRCode(scanData.code!);
-                  Get.snackbar(
-                    'QR Code Scanned',
-                    'Result: ${scanData.code}',
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              Container(
+                  color: Colors.grey,
+                  width: 250,
+                  height: 120,
+                  child: Column(children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.image),
+                          Icon(Icons.flash_on),
+                          Icon(Icons.flip_camera_ios_outlined),
+                        ])
+                  ])),
+              // scanning logic
+              QRView(
+                key: qrKey,
+                onQRViewCreated: (QRViewController qrController) {
+                  qrController.scannedDataStream.listen((scanData) {
+                    controller.processScannedQRCode(scanData.code!);
+                    //save scanned history
+                    controller.saveToHistory(scanData.code!);
 
-                  //save scanned history
-                  controller.saveToHistory(scanData.code!);
-
-                  //3sec delay
-                  Future.delayed(const Duration(seconds: 3), () {
-                    qrController.resumeCamera();
+                    //3sec delay
+                    Future.delayed(const Duration(seconds: 3), () {
+                      qrController.resumeCamera();
+                    });
                   });
-                });
-              },
-            ),
-            // Custom Scanning Box Overlay
-            Center(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // scanning box
-                  Container(
-                    width: 250,
-                    height: 250,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.yellow,
-                        width: 3,
-                      ),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  // Scanning
-                  ScanningLine(),
-                ],
+                },
               ),
-            ),
-
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Text(
-                  'Place the QR code inside the box',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+              // Custom Scanning Box Overlay
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // scanning box
+                    Container(
+                      width: 250,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.yellow,
+                          width: 5,
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    // Scanning
+                    ScanningLine(),
+                  ],
                 ),
               ),
-            ),
-          ],
+
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Text(
+                    'Place the QR code inside the box',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -95,35 +105,38 @@ class QRScanView extends StatelessWidget {
               const Icon(Icons.qr_code_scanner_outlined, color: Colors.black),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.grey[850],
-          selectedItemColor: Colors.amber,
-          unselectedItemColor: Colors.white,
-          currentIndex: selectedIndex.value,
-          onTap: (index) {
-            selectedIndex.value = index;
-            if (index == 0) {
-              Get.to(() => const QRGenerator()); // Navigate to QR Generator
-            } else if (index == 1) {
-              Get.to(() => QRScanView()); // Navigate to QR Scanner
-            } else if (index == 2) {
-              Get.to(() => HistoryView()); // Navigate to History
-            }
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_scanner),
-              label: 'Generate QR',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code),
-              label: 'Scanner',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.history),
-              label: 'History',
-            ),
-          ],
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.grey[850],
+            selectedItemColor: Colors.amber,
+            unselectedItemColor: Colors.white,
+            currentIndex: selectedIndex.value,
+            onTap: (index) {
+              selectedIndex.value = index;
+              if (index == 0) {
+                Get.to(() => QRGenerator()); // Navigate to QR Generator
+              } else if (index == 1) {
+                Get.to(() => QRScanView()); // Navigate to QR Scanner
+              } else if (index == 2) {
+                Get.to(() => HistoryView()); // Navigate to History
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.qr_code_scanner),
+                label: 'Generate QR',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.qr_code, color: Colors.grey[850]),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                label: 'History',
+              ),
+            ],
+          ),
         ),
       );
     });
@@ -168,7 +181,7 @@ class _ScanningLineState extends State<ScanningLine>
           child: Container(
             width: 250,
             height: 2,
-            color: Colors.green,
+            color: Colors.yellow,
           ),
         );
       },

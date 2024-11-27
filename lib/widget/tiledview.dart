@@ -1,12 +1,14 @@
 import 'package:app_ecom/controller/theme_controller.dart';
 import 'package:app_ecom/model/categoryitem_model.dart';
+import 'package:app_ecom/model/wishlist_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TiledView extends StatelessWidget {
   final CategoryItem categoryItem;
+  final WishlistItem? wishlistItem;
 
-  const TiledView({super.key, required this.categoryItem});
+  const TiledView({super.key, required this.categoryItem, this.wishlistItem});
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +69,19 @@ class TiledView extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
-                        Obx(() => IconButton(
-                              icon: Icon(
-                                categoryItem.isLiked.value
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: categoryItem.isLiked.value
-                                    ? Colors.red
-                                    : Colors.grey,
+                        IconButton(
+                          icon: Icon(Icons.favorite_border
+                              // wishlistItem!.isLiked.value
+                              //     ? Icons.favorite
+                              //     : Icons.favorite_border,
+                              // color: wishlistItem!.isLiked.value
+                              //     ? Colors.red
+                              //     : Colors.grey,
                               ),
-                              onPressed: () {
-                                categoryItem.isLiked.toggle();
-                              },
-                            )),
+                          onPressed: () {
+                            // wishlistItem!.isLiked.toggle();
+                          },
+                        ),
                       ],
                     )
                   ],

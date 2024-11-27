@@ -48,7 +48,7 @@ class HomeScrn extends StatelessWidget {
                             CarousalImages.headphone,
                           ].obs,
                           viewFraction: 1.0,
-                          height: height * .25),
+                          height: height * .18),
                       const SizedBox(
                         height: 10,
                       ),
@@ -84,7 +84,9 @@ class HomeScrn extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return TiledView(categoryItem: categoryItems[index]);
+                          return TiledView(
+                            categoryItem: categoryItems[index],
+                          );
                         },
                       ),
                     ],
