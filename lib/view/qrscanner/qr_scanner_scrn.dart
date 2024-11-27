@@ -7,95 +7,97 @@ import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 class QRScanView extends StatelessWidget {
   final QRController controller = Get.put(QRController());
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  final RxInt selectedIndex = 1.obs;
 
   QRScanView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('QR Scanner'),
-          leading: IconButton(
-            onPressed: () {
-              Get.offAll(const BottomNav());
-            },
-            icon: const Icon(Icons.arrow_back_ios_new),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('QR Scanner'),
+        leading: IconButton(
+          onPressed: () {
+            Get.offAll(const BottomNav());
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Stack(
-            children: [
-              Container(
-                  color: Colors.grey,
-                  width: 100,
-                  height: 100,
-                  child: Column(children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Icon(Icons.image),
-                          Icon(Icons.flash_on),
-                          Icon(Icons.flip_camera_ios_outlined),
-                        ])
-                  ])),
-              // scanning logic
-              QRView(
-                key: qrKey,
-                onQRViewCreated: (QRViewController qrController) {
-                  qrController.scannedDataStream.listen((scanData) {
-                    controller.processScannedQRCode(scanData.code!);
-                    //save scanned history
-                    controller.saveToHistory(scanData.code!);
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Stack(
+          children: [
+            Container(
+                color: Colors.grey,
+                width: 100,
+                height: 100,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(Icons.image),
+                            Icon(Icons.flash_on),
+                            Icon(Icons.flip_camera_ios_outlined),
+                          ])
+                    ])),
+            // scanning logic
 
-                    //3sec delay
-                    Future.delayed(const Duration(seconds: 3), () {
-                      qrController.resumeCamera();
-                    });
+            QRView(
+              key: qrKey,
+              onQRViewCreated: (QRViewController qrController) {
+                qrController.scannedDataStream.listen((scanData) {
+                  controller.processScannedQRCode(scanData.code!);
+                  //save scanned history
+                  controller.saveToHistory(scanData.code!);
+
+                  //3sec delay
+                  Future.delayed(const Duration(seconds: 3), () {
+                    qrController.resumeCamera();
                   });
-                },
-              ),
-              // Custom Scanning Box Overlay
-              Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    // scanning box
-                    Container(
-                      width: 250,
-                      height: 250,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.yellow,
-                          width: 5,
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    // Scanning
-                    ScanningLine(),
-                  ],
-                ),
-              ),
+                });
+              },
+            ),
 
-              Positioned(
-                bottom: 20,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Text(
-                    'Place the QR code inside the box',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+            // Custom Scanning Box Overlay
+            Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // scanning box
+                  Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.yellow,
+                        width: 5,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
+                  // Scanning
+                  ScanningLine(),
+                ],
+              ),
+            ),
+
+            Positioned(
+              bottom: 20,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  'Place the QR code inside the box',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 

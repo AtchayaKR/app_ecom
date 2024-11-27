@@ -25,7 +25,7 @@ class QRController extends GetxController {
       await Permission.camera.request();
     }
   }
-
+ 
   // Process scanned QR code
   void processScannedQRCode(String scannedCode) {
     if (scannedCode.isNotEmpty && scanResult.value != scannedCode) {

@@ -9,7 +9,7 @@ class BottomNavController extends GetxController {
   var currentIndex = 1.obs;
 }
 
-final themeController = Get.put(ThemeController());
+final themeController = Get.find<ThemeController>();
 
 class BottomNavScreen extends StatelessWidget {
   const BottomNavScreen({super.key});
@@ -17,6 +17,7 @@ class BottomNavScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BottomNavController controller = Get.put(BottomNavController());
+    final ThemeController themeController = Get.find<ThemeController>();
 
     return Obx(() {
       final isDarkMode = themeController.themeMode.value == ThemeMode.dark;
@@ -32,9 +33,9 @@ class BottomNavScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
-          margin: const EdgeInsets.only(top: 10),
-          height: 64,
-          width: 64,
+          margin: const EdgeInsets.only(left: 30),
+          height: 74,
+          width: 74,
           child: FloatingActionButton(
             onPressed: () {
               controller.currentIndex.value = 1; // Navigate to QR Scanner
@@ -53,13 +54,13 @@ class BottomNavScreen extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: BottomAppBar(
             color: isDarkMode
                 ? const Color.fromARGB(255, 34, 34, 34)
                 : Colors.grey[300],
             shape: const CircularNotchedRectangle(),
-            notchMargin: 4.0,
+            // notchMargin: 2.0,
             child: Container(
               height: 60,
               decoration: const BoxDecoration(
@@ -76,6 +77,7 @@ class BottomNavScreen extends StatelessWidget {
                       controller.currentIndex.value =
                           0; // Navigate to Generator
                     },
+                    iconSize: 40,
                     icon: Icon(
                       Icons.qr_code_2,
                       color: controller.currentIndex.value == 0
@@ -85,6 +87,7 @@ class BottomNavScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 48),
                   IconButton(
+                    iconSize: 40,
                     onPressed: () {
                       controller.currentIndex.value = 2; // Navigate to History
                     },
