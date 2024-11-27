@@ -1,5 +1,5 @@
 import 'package:app_ecom/controller/theme_controller.dart';
-import 'package:app_ecom/view/qrscanner/qr_scanner_scrn.dart';
+import 'package:app_ecom/view/qrscanner/bottomnav.dart';
 import 'package:app_ecom/view/wishlist/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,42 +25,25 @@ class BottomNav extends StatelessWidget {
         floatingActionButton: navigationController.hideBottomNavScreens
                 .contains(navigationController.selectedIndex.value)
             ? null
-            :
-            Container(
-              margin:EdgeInsets.only(top:10),
-              height:64,
-              width:64,
-               child: FloatingActionButton(
-                    onPressed: () {
-                      navigationController.selectedIndex.value = 2;
-                    },
-                      shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                    side:BorderSide(width:3,color:isDarkMode?Colors.black:Colors.white)),
-                    elevation:0,
-                    backgroundColor: Colors.yellow,
-                    child: Icon(Icons.qr_code_scanner_outlined,
-                        color: Colors.black),
-                  ),
-            ),
-            //  Material(
-            //     color: Colors.yellow,
-            //     shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(50)),
-            //     elevation: 10,
-            //     shadowColor: Colors.grey,
-            //     child: Container(
-            //       height: 70,
-            //       width: 70,
-            //       child: FloatingActionButton(
-            //         onPressed: () {
-            //           navigationController.selectedIndex.value = 2;
-            //         },
-            //         backgroundColor: Colors.yellow,
-            //         child: Icon(Icons.qr_code_scanner_outlined,
-            //             color: Colors.black),
-            //       ),
-            //     )),
+            : Container(
+                margin: EdgeInsets.only(top: 10),
+                height: 64,
+                width: 64,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    navigationController.selectedIndex.value = 2;
+                  },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      side: BorderSide(
+                          width: 3,
+                          color: isDarkMode ? Colors.black : Colors.white)),
+                  elevation: 0,
+                  backgroundColor: Colors.yellow,
+                  child:
+                      Icon(Icons.qr_code_scanner_outlined, color: Colors.black),
+                ),
+              ),
         bottomNavigationBar: navigationController.hideBottomNavScreens
                 .contains(navigationController.selectedIndex.value)
             ? null
@@ -73,9 +56,12 @@ class BottomNav extends StatelessWidget {
                 notchMargin: 4.0,
                 elevation: 10,
                 child: Container(
-                  height: 80,
+                  height: 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -148,7 +134,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScrn(),
     SearchCategory(),
-    QRScanView(),
+    BottomNavScreen(),
     WishlistScrn(),
     const ProfileScreen(),
   ];

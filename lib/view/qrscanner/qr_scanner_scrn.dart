@@ -1,7 +1,5 @@
 import 'package:app_ecom/bottom_navigation.dart';
 import 'package:app_ecom/controller/qr_controller.dart';
-import 'package:app_ecom/view/qrscanner/generate_qr_code.dart';
-import 'package:app_ecom/view/qrscanner/qr_history_scrn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
@@ -32,8 +30,8 @@ class QRScanView extends StatelessWidget {
             children: [
               Container(
                   color: Colors.grey,
-                  width: 250,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   child: Column(children: [
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,48 +90,6 @@ class QRScanView extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            selectedIndex.value = 1;
-          },
-          backgroundColor: Colors.yellow,
-          child:
-              const Icon(Icons.qr_code_scanner_outlined, color: Colors.black),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.grey[850],
-            selectedItemColor: Colors.amber,
-            unselectedItemColor: Colors.white,
-            currentIndex: selectedIndex.value,
-            onTap: (index) {
-              selectedIndex.value = index;
-              if (index == 0) {
-                Get.to(() => QRGenerator()); // Navigate to QR Generator
-              } else if (index == 1) {
-                Get.to(() => QRScanView()); // Navigate to QR Scanner
-              } else if (index == 2) {
-                Get.to(() => HistoryView()); // Navigate to History
-              }
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.qr_code_scanner),
-                label: 'Generate QR',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.qr_code, color: Colors.grey[850]),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.history),
-                label: 'History',
               ),
             ],
           ),
